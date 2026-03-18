@@ -26,7 +26,7 @@ app.post("/order", (req, res) => {
 });
 
 // Send all orders (for kitchen)
-app.get("/orders", (req, res) => {
+app.get("/order", (req, res) => {
   res.json(orders);
 });
 
