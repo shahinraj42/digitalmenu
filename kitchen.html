@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kitchen Dashboard</title>
+</head>
+<body>
+
+  <h1>Kitchen Orders</h1>
+
+  <div id="orders"></div>
+
+  <script>
+const BASE_URL = "https://digitalmenu-bo8l.onrender.com";
+
+function updateStatus(id, status) {
+  fetch(`${BASE_URL}/order/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ status })
+  })
+  .then(() => loadOrders());
+}
+
+function loadOrders() {
+  fetch(`${BASE_URL}/order`)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("orders");
+      container.innerHTML = "";
+
+      data.forEach(order => {
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+          <h3>Table ${order.table}</h3>
+          <p>${order.items.join(", ")}</p>
+          <p>Status: ${order.status}</p>
+
+          <button onclick="updateStatus(${order.id}, 'Preparing')">Preparing</button>
+          <button onclick="updateStatus(${order.id}, 'Served')">Served</button>
+          <hr>
+        `;
+
+        container.appendChild(div);
+      });
+    });
+}
+
+// auto load
+loadOrders();
+</script>
+
+</body>
+</html>
