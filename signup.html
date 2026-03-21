@@ -1,0 +1,59 @@
+<!-- ======================== -->
+<!-- 🟢 SIGNUP PAGE (Frontend UI) -->
+<!-- FILE: signup.html -->
+<!-- ======================== -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Signup</title>
+</head>
+<body>
+
+<h2>Restaurant Signup</h2>                                   <!-- page title -->
+
+<input type="text" id="name" placeholder="Restaurant Name">  <!-- Input for restaurant name -->
+
+<input type="text" id="email" placeholder="Email">           <!-- Input for email --><!-- Input for email -->
+
+<input type="password" id="password" placeholder="Password"> <!-- Input for password -->
+
+<button onclick="signup()">Signup</button>                    <!-- Signup button -->
+
+<script>
+
+// ========================
+// 🟢 SIGNUP FUNCTION
+// ========================
+
+function signup() {                                       // runs when user clicks signup button
+
+  fetch("https://digitalmenu-bo8l.onrender.com/signup", { // send request to backend
+    method: "POST",                                       // sending data → POST method
+    headers: {
+      "Content-Type": "application/json"                  // tell server we send JSON
+    },
+    body: JSON.stringify({                                // convert JS object → JSON
+      name: document.getElementById("name").value,        // get name input value
+      email: document.getElementById("email").value,      // get email input value
+      password: document.getElementById("password").value // get password input
+    })
+  })
+  .then(res => res.json())                                // convert response → JSON
+  .then(data => {
+
+    if (data.success) {                                   // if signup success
+      alert("Signup successful! Please login.");          // show message
+      window.location.href = "login.html";                // redirect to login page
+    } else {
+      alert("Signup failed");                             // error message
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
